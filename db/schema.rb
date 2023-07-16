@@ -18,7 +18,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_065140) do
     t.string "brand"
     t.string "model"
     t.integer "year"
-    t.integer "version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -37,6 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_065140) do
     t.float "price"
     t.integer "init_year"
     t.integer "end_year"
+    t.integer "version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -5,4 +5,13 @@ class Code < ApplicationRecord
     front: 0,
     rear: 1
   }
+
+  enum version: {
+    original: 0,
+    glp: 1,
+    gnv3: 2,
+    gnv4: 3,
+    gnv5: 4,
+    reforce: 5
+  }
 end

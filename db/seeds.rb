@@ -5,14 +5,14 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-car1 = Car.create(brand: "Kia", model:"Sorento", year: 2016, version:"original")
-car2 = Car.create(brand: "Volkswagen", model:"Passat", year: 2013, version:1)
+car1 = Car.create(brand: "Kia", model:"Sorento", year: 2016, )
+car2 = Car.create(brand: "Volkswagen", model:"Passat", year: 2013)
 
-code1 = Code.create(osis_code:"491", position:1, price: 150.4, init_year:2013, end_year: 2017)
+code1 = Code.create(osis_code:"491", position:1, price: 150.4, init_year:2013, end_year: 2017, version:"original")
 
-code2 = Code.create(osis_code:"7851", position:1, price: 120.5, init_year:2011, end_year: 2015)
+code2 = Code.create(osis_code:"7851", position:1, price: 120.5, init_year:2011, end_year: 2015, version:1)
 
-code3 = Code.create(osis_code:"3596", position:0, price: 98.2, init_year:2011, end_year: 2015)
+code3 = Code.create(osis_code:"3596", position:0, price: 98.2, init_year:2011, end_year: 2015, version:2)
 
 car1.codes << code1
 car2.codes << code2

@@ -7,6 +7,7 @@ class CreateCodes < ActiveRecord::Migration[7.0]
       t.float :price
       t.integer :init_year
       t.integer :end_year
+      t.integer :version
 
       t.timestamps
     end
