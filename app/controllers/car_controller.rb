@@ -1,12 +1,12 @@
 class CarController < ApplicationController
   def index
-    search = params[:search].strip
+    search = params[:search]
     if search
-      brands = Car.pluck(:brand).uniq.select do |brand|
-        brand.downcase.include?(search.downcase)
+      brands = Brand.all.select do |brand|
+        brand.name.downcase.include?(search.strip.downcase)
       end
     else
-      brands = Car.pluck(:brand).uniq
+      brands = Brand.all
     end
     render json: brands
   end

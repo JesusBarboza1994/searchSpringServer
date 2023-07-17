@@ -14,12 +14,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_065140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cars", force: :cascade do |t|
-    t.string "brand"
-    t.string "model"
-    t.integer "year"
+  create_table "brands", force: :cascade do |t|
+    t.string "name"
+    t.string "img_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "cars", force: :cascade do |t|
+    t.string "model"
+    t.integer "year"
+    t.bigint "brand_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brand_id"], name: "index_cars_on_brand_id"
   end
 
   create_table "cars_codes", id: false, force: :cascade do |t|
@@ -55,5 +63,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_065140) do
     t.index ["code_id"], name: "index_springs_on_code_id"
   end
 
+  add_foreign_key "cars", "brands"
   add_foreign_key "springs", "codes"
 end

@@ -5,8 +5,10 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-car1 = Car.create(brand: "Kia", model:"Sorento", year: 2016, )
-car2 = Car.create(brand: "Volkswagen", model:"Passat", year: 2013)
+brand1 = Brand.create(name: "Kia", img_url:"18LvdIr94K105Vixmn9pcOlneYGIPpiOP")
+brand2 = Brand.create(name: "Volkswagen", img_url:"15wcN0-NOXXLnHe0ju4vMYYl2F2KSURO9")
+car1 = Car.create(brand: brand1, model:"Sorento", year: 2016 )
+car2 = Car.create(brand: brand2, model:"Passat", year: 2013)
 
 code1 = Code.create(osis_code:"491", position:1, price: 150.4, init_year:2013, end_year: 2017, version:"original")
 

@@ -9,11 +9,11 @@ class CodeController < ApplicationController
     if (brand || model || position || year || version)
       filtered_codes = Code.all.select do |code|
         code.cars.any? do |car|
-          brand_exist = brand.blank? || car.brand == brand
+          brand_exist = brand.blank? || car.brand.name == brand
           model_exist = model.blank? || car.model == model
           version_exist = version.blank? || car.version == version
           year_exist = year.blank? || (code.end_year >= year.to_i && code.init_year <= year.to_i)
-          brand_exist && model_exist && year_exist && version
+          brand_exist && model_exist && year_exist && version_exist
         end
       end
     else
