@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_065140) do
   create_table "cars", force: :cascade do |t|
     t.string "model"
     t.integer "year"
+    t.integer "table_id"
     t.bigint "brand_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -39,12 +40,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_065140) do
 
   create_table "codes", force: :cascade do |t|
     t.string "osis_code"
-    t.string "url_img"
+    t.string "img_url"
     t.integer "position", default: 1
     t.float "price"
     t.integer "init_year"
     t.integer "end_year"
     t.integer "version"
+    t.integer "table_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

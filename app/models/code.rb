@@ -1,6 +1,6 @@
 class Code < ApplicationRecord
   has_and_belongs_to_many :cars
-
+  has_one :spring
   enum position: {
     front: 0,
     rear: 1
@@ -12,6 +12,7 @@ class Code < ApplicationRecord
     gnv3: 2,
     gnv4: 3,
     gnv5: 4,
-    reforce: 5
+    reforce: 5,
+    prog: 6
   }
 end
