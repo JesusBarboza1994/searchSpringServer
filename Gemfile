@@ -8,7 +8,8 @@ gem "rails", "~> 7.0.6"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
-
+gem 'tiny_tds', '~> 0.7.0'
+gem 'activerecord-sqlserver-adapter', '~> 7.0.0'
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 

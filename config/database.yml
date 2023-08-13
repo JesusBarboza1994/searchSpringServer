@@ -21,6 +21,13 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+remote_sql_server:
+  adapter: sqlserver
+  database: MRC
+  host: 161.132.105.75
+  username: SA
+  password: s3rv3r@121234
+
 development:
   <<: *default
   database: searchSpringServer_development
