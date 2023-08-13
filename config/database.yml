@@ -23,11 +23,10 @@ default: &default
 
 remote_sql_server:
   adapter: sqlserver
-  database: MRC
-  host: 161.132.105.75
-  username: SA
-  password: s3rv3r@121234
-
+  database: <%= ENV['DB_NAME'] %>
+  host:  <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
 development:
   <<: *default
   database: searchSpringServer_development
