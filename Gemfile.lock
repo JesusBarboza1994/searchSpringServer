@@ -175,6 +175,7 @@ DEPENDENCIES
   bootsnap
   debug
   dotenv-rails
+  mini_portile
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
@@ -186,4 +187,4 @@ RUBY VERSION
    ruby 3.1.3p185
 
 BUNDLED WITH
-   2.3.19
+   2.3.26
