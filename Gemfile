@@ -6,6 +6,7 @@ ruby "3.1.3"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.6"
 gem 'dotenv-rails'
+gem 'net-ftp', '~> 0.2.0'
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 gem "mini_portile"

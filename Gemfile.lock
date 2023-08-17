@@ -104,6 +104,9 @@ GEM
     mini_portile (0.6.2)
     minitest (5.19.0)
     msgpack (1.7.2)
+    net-ftp (0.2.0)
+      net-protocol
+      time
     net-imap (0.3.7)
       date
       net-protocol
@@ -157,6 +160,8 @@ GEM
     reline (0.3.7)
       io-console (~> 0.5)
     thor (1.2.2)
+    time (0.2.2)
+      date
     timeout (0.4.0)
     tiny_tds (0.7.0)
       mini_portile (= 0.6.2)
@@ -176,6 +181,7 @@ DEPENDENCIES
   debug
   dotenv-rails
   mini_portile
+  net-ftp (~> 0.2.0)
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
