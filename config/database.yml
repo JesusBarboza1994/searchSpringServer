@@ -85,6 +85,7 @@ test:
 #
 production:
   <<: *default
-  database: searchSpringServer_production
-  username: searchSpringServer
-  password: <%= ENV["SEARCHSPRINGSERVER_DATABASE_PASSWORD"] %>
+  database: <%= ENV['DATABASE_URL'] %>
+  host:  <%= ENV['PGHOST'] %>
+  username: <%= ENV['PGUSER'] %>
+  password: <%= ENV['PGPASSWORD'] %>
