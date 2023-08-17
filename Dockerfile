@@ -18,4 +18,4 @@ RUN bundle install
 COPY . .
 
 # Especifica el comando para iniciar tu aplicación Rails
-CMD ["rails", "server"]
+CMD ["rails", "server", "-b", "0.0.0.0"]
