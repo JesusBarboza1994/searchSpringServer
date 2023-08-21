@@ -13,6 +13,7 @@
 ActiveRecord::Schema[7.0].define(version: 2023_07_16_065140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "timescaledb"
 
   create_table "brands", force: :cascade do |t|
     t.string "name"
@@ -23,7 +24,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_065140) do
 
   create_table "cars", force: :cascade do |t|
     t.string "model"
-    t.integer "year"
+    t.integer "init_year"
+    t.integer "end_year"
     t.integer "table_id"
     t.bigint "brand_id", null: false
     t.datetime "created_at", null: false
@@ -43,8 +45,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_065140) do
     t.string "img_url"
     t.integer "position", default: 1
     t.float "price"
-    t.integer "init_year"
-    t.integer "end_year"
     t.integer "version"
     t.integer "table_id"
     t.datetime "created_at", null: false

@@ -19,7 +19,7 @@ puts "END SEEDING - BRANDS"
 
 puts "START SEEDING - CARS"
 CSV.foreach(car_file, headers: true) do |row_car|
-  car = Car.new(table_id: row_car[0].to_i,model: row_car[2], year: row_car[3], brand: Brand.find_by(name: row_car[1].strip))
+  car = Car.new(table_id: row_car[0].to_i,model: row_car[2], init_year: row_car[3], end_year: row_car[4], brand: Brand.find_by(name: row_car[1].strip))
   if !car.save
     car.errors.full_messages.each do |error|
       puts "#{row_car[2]} - #{row_car[1]} - #{error}"
@@ -38,19 +38,19 @@ end
 puts "END SEEDING - PRICES"
 puts "START SEEDING - CODES"
 CSV.foreach(code_file, headers: true) do |row_code|
-  if row_code[7].include?("GLP")
+  if row_code[5].include?("GLP")
     version = 1
-  elsif row_code[7].include?("ORIG") 
+  elsif row_code[5].include?("ORIG") 
     version = 0
-  elsif row_code[7].include?("GNV") && row_code[7].include?("3")
+  elsif row_code[5].include?("GNV") && row_code[5].include?("3")
     version = 2
-  elsif row_code[7].include?("GNV") && row_code[7].include?("4")
+  elsif row_code[5].include?("GNV") && row_code[5].include?("4")
     version = 3
-  elsif row_code[7].include?("GNV") && row_code[7].include?("5")
+  elsif row_code[5].include?("GNV") && row_code[5].include?("5")
     version = 4
-  elsif row_code[7].include?("REF")
+  elsif row_code[5].include?("REF")
     version = 5
-  elsif row_code[7].include?("PROG")
+  elsif row_code[5].include?("PROG")
     version = 6
   end
   price = prices.find{|pr| pr.key?(row_code[1])}
@@ -59,7 +59,7 @@ CSV.foreach(code_file, headers: true) do |row_code|
   else
     price = price[row_code[1]].to_f
   end
-  code = Code.new(table_id: row_code[0].to_i,osis_code: row_code[1], img_url: row_code[2], position: row_code[3].to_i, price: price, init_year: row_code[5].to_i, end_year: row_code[6].to_i, version: version)
+  code = Code.new(table_id: row_code[0].to_i,osis_code: row_code[1], img_url: row_code[2], position: row_code[3].to_i, price: price, version: version)
   if !code.save
     code.errors.full_messages.each do |error|
       puts "#{row_code[1]} - #{error}"

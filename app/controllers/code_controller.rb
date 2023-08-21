@@ -11,7 +11,7 @@ class CodeController < ApplicationController
     codes = codes.joins(cars: :brand).where("brands.name = ?", brand) if brand.present?
     codes = codes.where(cars: { model: model }) if model.present?
     codes = codes.where(cars: { version: version }) if version.present?
-    codes = codes.where("codes.end_year >= ? AND codes.init_year <= ?", year.to_i, year.to_i) if year.present?
+    codes = codes.where("cars.end_year >= ? AND cars.init_year <= ?", year.to_i, year.to_i) if year.present?
     codes = codes.where(position: position) if position.present?
     
     render json: {
