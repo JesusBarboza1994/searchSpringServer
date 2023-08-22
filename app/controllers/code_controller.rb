@@ -3,19 +3,35 @@ class CodeController < ApplicationController
     brand = params[:brand]
     model = params[:model]
     position = params[:position]
-    year = params[:year]
+    start_year = params[:start_year]
+    end_year = params[:end_year]
     version = params[:version]
     
     codes = Code.includes(cars: :brand)
     
     codes = codes.joins(cars: :brand).where("brands.name = ?", brand) if brand.present?
     codes = codes.where(cars: { model: model }) if model.present?
-    codes = codes.where(cars: { version: version }) if version.present?
-    codes = codes.where("cars.end_year >= ? AND cars.init_year <= ?", year.to_i, year.to_i) if year.present?
+    codes = codes.where( version: version ) if version.present?
+    if start_year.present? && end_year.present?
+      codes = codes.where("cars.end_year >= ? AND cars.init_year <= ?", end_year.to_i, start_year.to_i)
+    elsif start_year.present?
+      codes = codes.where("cars.init_year >= ?", start_year.to_i)
+    elsif end_year.present?
+      codes = codes.where("cars.end_year <= ?", end_year.to_i)
+    end
     codes = codes.where(position: position) if position.present?
-    
+    unique_brands = codes.select("brands.name").distinct.pluck("brands.name")
+    unique_models = codes.select("cars.model").distinct.pluck("cars.model")
+    unique_versions = codes.select("version").distinct.pluck("version")
+    unique_positions = codes.select("position").distinct.pluck("position")
+  
+  
     render json: {
-      codes: codes.as_json(include: { cars: { include: :brand } })
+      codes: codes.as_json(include: { cars: { include: :brand } }),
+      brands: unique_brands.compact.sort,
+      models: unique_models.compact.sort,
+      versions: unique_versions.compact.sort,
+      positions: unique_positions.compact.sort
     }
   end
 
