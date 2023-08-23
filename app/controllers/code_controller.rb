@@ -35,18 +35,21 @@ class CodeController < ApplicationController
     }
   end
 
-  
-  
-  
-
   def show
-    id = params[:id]
-    spring = Spring.find_by(code_id: id)
-    code = Code.find(id)
-    stock = ejecutar_consulta_osis(code.osis_code)
-    result = spring.attributes.merge('stock' => stock)
-    render json: result
+    spring = Spring.includes(:code).find_by(code_id: params[:id])
+    
+    if spring
+      stock = ejecutar_consulta_osis(spring.code.osis_code)
+      result = spring.attributes.merge('stock' => stock)
+      render json: {
+        spring: result,
+        code: spring.code
+      }
+    else
+      render json: {}, status: :not_found
+    end
   end
+  
 
   private
 
