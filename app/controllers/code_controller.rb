@@ -13,18 +13,15 @@ class CodeController < ApplicationController
     codes = codes.where(cars: { model: model }) if model.present?
     codes = codes.where( version: version ) if version.present?
     if start_year.present? && end_year.present?
-      codes = codes.where("cars.end_year >= ? AND cars.init_year <= ?", end_year.to_i, start_year.to_i)
-    elsif start_year.present?
-      codes = codes.where("cars.init_year >= ?", start_year.to_i)
-    elsif end_year.present?
-      codes = codes.where("cars.end_year <= ?", end_year.to_i)
+      codes = codes.joins(cars: :brand).where("cars.end_year >= ? AND cars.init_year <= ?", end_year.to_i, start_year.to_i)
+    elsif start_year.present? && !end_year.present?
+      codes = codes.joins(cars: :brand).where("cars.init_year <= ? AND cars.end_year >= ?", start_year.to_i, start_year.to_i)
     end
     codes = codes.where(position: position) if position.present?
     unique_brands = codes.select("brands.name").distinct.pluck("brands.name")
     unique_models = codes.select("cars.model").distinct.pluck("cars.model")
     unique_versions = codes.select("version").distinct.pluck("version")
     unique_positions = codes.select("position").distinct.pluck("position")
-  
   
     page_number = params[:page] || 1
     per_page = params[:per_page] || 12
