@@ -26,12 +26,18 @@ class CodeController < ApplicationController
     unique_positions = codes.select("position").distinct.pluck("position")
   
   
+    page_number = params[:page] || 1
+    per_page = params[:per_page] || 12
+    paginated_codes = codes.paginate(page: page_number, per_page: per_page)
+    total_pages = paginated_codes.total_pages
+
     render json: {
-      codes: codes.as_json(include: { cars: { include: :brand } }),
+      codes: paginated_codes.as_json(include: { cars: { include: :brand } }),
       brands: unique_brands.compact.sort,
       models: unique_models.compact.sort,
       versions: unique_versions.compact.sort,
-      positions: unique_positions.compact.sort
+      positions: unique_positions.compact.sort,
+      total_pages: total_pages
     }
   end
 
