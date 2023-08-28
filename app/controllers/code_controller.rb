@@ -40,7 +40,7 @@ class CodeController < ApplicationController
 
   def show
     spring = Spring.includes(:code).find_by(code_id: params[:id])
-    
+
     if spring
       stock = ejecutar_consulta_osis(spring.code.osis_code)
       result = spring.attributes.merge('stock' => stock)
@@ -58,16 +58,27 @@ class CodeController < ApplicationController
 
   def ejecutar_consulta_osis(osis_code)
     search_code = autocomplete_with_zeros(osis_code)
-    query = "SELECT [prd_codprd],[alm_codalm],[prd_desesp],CONVERT(INT, [spa_salfin]) AS [spa_salfin] 
-    FROM [MRC].[dbo].[STOCK_POR_ALMACEN_REPORTE_SP1] 
-    WHERE [prd_codprd] = #{search_code}
-    AND ([alm_codalm] = 'S0055' OR [alm_codalm] = 'S0010');"
-    resultados = Inventory.connection.exec_query(query).uniq
-    inventario = 0
-    resultados.each do |item|
-      inventario += item['spa_salfin']
+    puts "SEARCH CODE"
+    puts search_code
+    fecha_actual = Time.now
+    year= fecha_actual.year.to_s
+    month = fecha_actual.strftime('%m') 
+    query = "SELECT [prd_codprd],[alm_codalm],[ano_codano],[mes_codmes],CONVERT(INT, [spa_salfin]) AS [spa_salfin] 
+    FROM [MRC].[dbo].[SALDOS_PRODUCTOS_SPA] 
+    WHERE [prd_codprd] = '#{search_code.to_s}'
+    AND ([alm_codalm] = '0055' OR [alm_codalm] = '0010' 
+      OR [alm_codalm] = '0025' OR [alm_codalm] = '0037')
+    AND [ano_codano] = #{year}
+    AND [mes_codmes] = #{month};"
+    data = Inventory.connection.exec_query(query).uniq
+    resultados = {}
+    data.each do |item|
+      alm_codalm = item["alm_codalm"]
+      spa_salfin = item["spa_salfin"]
+      resultados[alm_codalm] = spa_salfin
     end
-    return inventario
+    return resultados
+
   end
 
   def autocomplete_with_zeros(number_str)
