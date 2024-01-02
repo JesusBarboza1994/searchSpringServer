@@ -67,7 +67,8 @@ class CodeController < ApplicationController
     FROM [MRC].[dbo].[SALDOS_PRODUCTOS_SPA] 
     WHERE [prd_codprd] = '#{search_code.to_s}'
     AND ([alm_codalm] = '0055' OR [alm_codalm] = '0010' 
-      OR [alm_codalm] = '0025' OR [alm_codalm] = '0037')
+      OR [alm_codalm] = '0025' OR [alm_codalm] = '0037
+      OR [alm_codalm] = '0047')
     AND [ano_codano] = #{year}
     AND [mes_codmes] = #{month};"
     data = Inventory.connection.exec_query(query).uniq

@@ -8,7 +8,8 @@ class InventoryController < ApplicationController
       FROM [MRC].[dbo].[SALDOS_PRODUCTOS_SPA] 
       WHERE [prd_codprd] = '0000000491' 
       AND ([alm_codalm] = '0055' OR [alm_codalm] = '0010' 
-        OR [alm_codalm] = '0025' OR [alm_codalm] = '0037')
+        OR [alm_codalm] = '0025' OR [alm_codalm] = '0037'
+        OR [alm_codalm] = '0047')
       AND [ano_codano] = #{year}
       AND [mes_codmes] = #{month};")
     render json: ({stock: resultados})
