@@ -1,34 +1,40 @@
 class CodeController < ApplicationController
   def search
-    permitted_params = params.permit(:brand, :model, :position, :start_year, :end_year, :version, :code)
+    permitted_params = params.permit(:brand, :model, :position, :year, :version, :code)
     if permitted_params.empty?
       render json: { error: "Debes proporcionar al menos un parámetro válido." }, status: :not_found
+      return
     end
-
+  
     brand = permitted_params["brand"]
     model = permitted_params["model"]
     position = permitted_params["position"]
-    start_year = permitted_params["start_year"]
-    end_year = permitted_params["end_year"]
+    year = permitted_params["year"]
     version = permitted_params["version"]
-
-    codes = Code.includes(cars: [:brand]).select('codes.*, cars.model AS car_model, brands.name AS brand_name')
+  
+    # Crear una consulta que incluye la marca, el modelo y los datos de inicio y fin de año de cars
+    codes = Code.includes(cars: [:brand])
+                .select('codes.*, cars.model AS model, brands.name AS brand, cars.init_year AS start_year, cars.end_year AS end_year')
+  
     codes = codes.joins(cars: :brand).where("brands.name = ?", brand) if brand.present?
     codes = codes.where("cars.model LIKE ?", "%#{model}%") if model.present?
-    codes = codes.where( version: version ) if version.present?
-    if start_year.present? && end_year.present?
-      codes = codes.joins(cars: :brand).where("cars.end_year >= ? AND cars.init_year <= ?", end_year.to_i, start_year.to_i)
-    elsif start_year.present? && !end_year.present?
-      codes = codes.joins(cars: :brand).where("cars.init_year <= ? AND cars.end_year >= ?", start_year.to_i, start_year.to_i)
+    codes = codes.where(version: version) if version.present?
+    if year.present?
+      codes = codes.where("cars.init_year <= ? AND cars.end_year >= ?", year.to_i, year.to_i)
     end
-
+  
+    # Ejecutar la función ejecutar_consulta_osis y agregar el resultado como una clave adicional
     codes = codes.map do |code|
-      code.attributes.merge(stock: ejecutar_consulta_osis(code.osis_code).values.sum)
+      code.attributes.merge(
+        stock: ejecutar_consulta_osis(code.osis_code).values.sum
+      )
     end
+  
     render json: {
       codes: codes
     }
   end
+  
   def index
     brand = params[:brand]
     model = params[:model]
