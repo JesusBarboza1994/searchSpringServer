@@ -1,4 +1,34 @@
 class CodeController < ApplicationController
+  def search
+    permitted_params = params.permit(:brand, :model, :position, :start_year, :end_year, :version, :code)
+    if permitted_params.empty?
+      render json: { error: "Debes proporcionar al menos un parámetro válido." }, status: :not_found
+    end
+
+    brand = permitted_params["brand"]
+    model = permitted_params["model"]
+    position = permitted_params["position"]
+    start_year = permitted_params["start_year"]
+    end_year = permitted_params["end_year"]
+    version = permitted_params["version"]
+
+    codes = Code.includes(cars: [:brand]).select('codes.*, cars.model AS car_model, brands.name AS brand_name')
+    codes = codes.joins(cars: :brand).where("brands.name = ?", brand) if brand.present?
+    codes = codes.where("cars.model LIKE ?", "%#{model}%") if model.present?
+    codes = codes.where( version: version ) if version.present?
+    if start_year.present? && end_year.present?
+      codes = codes.joins(cars: :brand).where("cars.end_year >= ? AND cars.init_year <= ?", end_year.to_i, start_year.to_i)
+    elsif start_year.present? && !end_year.present?
+      codes = codes.joins(cars: :brand).where("cars.init_year <= ? AND cars.end_year >= ?", start_year.to_i, start_year.to_i)
+    end
+
+    codes = codes.map do |code|
+      code.attributes.merge(stock: ejecutar_consulta_osis(code.osis_code).values.sum)
+    end
+    render json: {
+      codes: codes
+    }
+  end
   def index
     brand = params[:brand]
     model = params[:model]
@@ -38,6 +68,7 @@ class CodeController < ApplicationController
     }
   end
 
+  
   def show
     spring = Spring.includes(:code).find_by(code_id: params[:id])
 
