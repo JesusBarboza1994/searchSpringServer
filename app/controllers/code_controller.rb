@@ -7,7 +7,7 @@ class CodeController < ApplicationController
     end
   
     brand = permitted_params["brand"]
-    model = permitted_params["model"]
+    model = permitted_params["model"] || permitted_params["modelo"]
     position = permitted_params["position"]
     year = permitted_params["year"]
     version = permitted_params["version"]
