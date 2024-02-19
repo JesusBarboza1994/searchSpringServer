@@ -34,7 +34,11 @@ class CodeController < ApplicationController
       codes: codes
     }
   end
-  
+  def health
+    render json: {
+      message: true
+    }
+  end
   def index
     brand = params[:brand]
     model = params[:model]
