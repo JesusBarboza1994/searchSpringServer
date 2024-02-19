@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   get '/codes', to: 'code#index'
   get '/codes/:id', to: 'code#show'
   get '/prueba', to: 'inventory#ejecutar_consulta'
-  post '/codes/search', to: 'code#search'
+  post '/search', to: 'code#search'
 end
